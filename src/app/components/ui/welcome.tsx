@@ -3,6 +3,7 @@
 import { MorphingText } from '@/components/animate-ui/primitives/texts/morphing';
 import { Button } from '@/components/ui/button';
 import { Globe } from '@/components/ui/globe';
+import Link from 'next/link';
 import { GrMapLocation } from 'react-icons/gr';
 import { MdOutlineArrowOutward } from 'react-icons/md';
 
@@ -18,7 +19,7 @@ const texts = [
 
 export default function Welcome() {
     return (
-        <main className="flex flex-col md:flex-row items-center justify-center h-screen bg-gray-50 px-10">
+        <main className="flex flex-col overflow-hidden md:flex-row items-center justify-center h-screen bg-gray-50 px-10">
             <div className="mt-10 md:m-0 flex flex-col items-center justify-center w-full md:w-1/2 gap-8">
                 <GrMapLocation size={56} />
                 <MorphingText
@@ -28,11 +29,13 @@ export default function Welcome() {
                     holdDelay={2500}
                 />
                 <Button
-                    className='cursor-pointer hover:bg-gray-200'
+                    className="cursor-pointer hover:bg-gray-200 transition-colors duration-300"
                     variant="ghost"
                 >
-                    Explorar
-                    <MdOutlineArrowOutward size={15} />
+                    <Link href="/explore" className='flex items-center gap-1'>
+                        Descubrir
+                        <MdOutlineArrowOutward size={15} />
+                    </Link>
                 </Button>
             </div>
             <div className="flex items-center justify-center w-full md:w-1/2">
