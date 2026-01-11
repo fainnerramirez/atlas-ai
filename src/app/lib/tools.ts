@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 export const getCoordinateTool = tool({
     name: 'get_coordinates',
-    description: 'Obtienes las coordenadas de un lugar específico',
+    description: 'Obtiene la latitud y longitud de un lugar específico a partir de un texto geocodificable como una ciudad, dirección o punto de interés',
     parameters: z.object({
         place: z.string().describe('El texto geocodificable del lugar'),
     }),
@@ -34,7 +34,7 @@ export const getCoordinateTool = tool({
 
             return { place, lat, lng };
         } catch (e) {
-            return { error: `Error al llamar a Mapbox: ${(e as Error).message}` };
+            return new Error(`Error al llamar api de mapbox | Message: ${(e as Error).message} | Cause: ${(e as Error).cause}`)
         }
-    },
+    }
 });

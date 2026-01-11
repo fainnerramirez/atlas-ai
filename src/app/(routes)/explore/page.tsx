@@ -69,15 +69,10 @@ export default function ExploreApp() {
     useEffect(() => {
         const chat = chatContainerRef.current
         if (!chat) return
-
-        const isAtBottom = chat.scrollHeight - chat.scrollTop - chat.clientHeight < 50
-
-        if (isAtBottom) {
-            chat.scrollTo({
-                top: chat.scrollHeight,
-                behavior: "smooth",
-            })
-        }
+        chat.scrollTo({
+            top: chat.scrollHeight,
+            behavior: "smooth",
+        })
     }, [messages])
 
     return (
@@ -91,7 +86,7 @@ export default function ExploreApp() {
                     {messages.map(msg => (
                         <div
                             key={msg.id}
-                            className={`p-2 rounded-md max-w-xs ${msg.sender === "user"
+                            className={`p-2 rounded-md max-w-md ${msg.sender === "user"
                                 ? "bg-blue-500 text-white ml-auto"
                                 : "bg-gray-200 text-gray-800"
                                 }`}
