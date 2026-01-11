@@ -1,7 +1,6 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useEffect, useState } from 'react';
-import Map, { FullscreenControl, Marker, NavigationControl, Popup } from 'react-map-gl/mapbox';
-import { WebMercatorViewport } from "viewport-mercator-project";
+import { useEffect, useRef, useState } from 'react';
+import Map, { FullscreenControl, type MapRef, Marker, NavigationControl, Popup } from 'react-map-gl/mapbox';
 
 export default function MapView({ coordinates }: { coordinates: { place: string; lat: number; lng: number }[] | undefined }) {
 
@@ -10,19 +9,22 @@ export default function MapView({ coordinates }: { coordinates: { place: string;
     longitude: coordinates?.[0]?.lng ?? 0,
     zoom: coordinates && coordinates.length > 1 ? 4 : 1,
   })
-
   const [selected, setSelected] = useState<number | null>(null);
+  const mapRef = useRef<MapRef>(null);
 
   useEffect(() => {
     if (!coordinates || coordinates.length === 0) return;
 
+    const map = mapRef.current?.getMap();
+    if (!map) return;
+
     if (coordinates.length === 1) {
-      setViewport(v => ({
-        ...v,
-        latitude: coordinates[0].lat,
-        longitude: coordinates[0].lng,
+      map.flyTo({
+        center: [coordinates[0].lng, coordinates[0].lat],
         zoom: 8,
-      }));
+        speed: 1.2,
+        curve: 1.42,
+      });
       return;
     }
 
@@ -34,22 +36,18 @@ export default function MapView({ coordinates }: { coordinates: { place: string;
     const minLng = Math.min(...lngs);
     const maxLng = Math.max(...lngs);
 
-    const bounds: [[number, number], [number, number]] = [
-      [minLng, minLat],
-      [maxLng, maxLat],
-    ];
-
-    const { longitude, latitude, zoom } = new WebMercatorViewport({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    }).fitBounds(bounds, { padding: 100 });
-
-    setViewport({ longitude, latitude, zoom });
+    map.fitBounds(
+      [
+        [minLng, minLat],
+        [maxLng, maxLat],
+      ],
+      { padding: 100 }
+    );
   }, [coordinates]);
-
 
   return (
     <Map
+      ref={mapRef}
       {...viewport}
       mapboxAccessToken={process.env.NEXT_PUBLIC_API_KEY_MAPBOX}
       onMove={(evt: any) => setViewport(evt.viewState)}
