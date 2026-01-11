@@ -45,7 +45,7 @@ export default function MapView({ coordinates }: { coordinates: { place: string;
           anchor="bottom"
         >
           <div style={{ color: 'red', fontSize: '24px' }}>
-            📍
+            🚩
           </div>
         </Marker>
       ))}
