@@ -19,21 +19,50 @@ export default function ExploreApp() {
 
     const chatContainerRef = useRef<HTMLDivElement>(null)
 
-    const handleSend = (text: string) => {
-        if (!text.trim()) return
+    const handleSend = async (question: string) => {
+        if (!question.trim()) return
 
         const nextId = messages.length + 1
-        const userMessage: Message = { id: nextId, text, sender: "user" }
+        const userMessage: Message = { id: nextId, text: question, sender: "user" }
         setMessages(prev => [...prev, userMessage])
 
-        setTimeout(() => {
+        // setTimeout(() => {
+        //     const botMessage: Message = {
+        //         id: nextId + 1,
+        //         text: "Estoy procesando tu consulta... 🌐",
+        //         sender: "bot",
+        //     }
+        //     setMessages(prev => [...prev, botMessage])
+        // }, 1000)
+
+        try {
+
+            const response = await fetch("/api/ai", {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({ question })
+            })
+
+            if (!response.ok) {
+                throw new Error(`Ha ocurrido un error al generar la respuesta de IA: ${JSON.stringify(response)}`)
+            }
+
+            const data = await response.json();
+            console.log("DATA AI: ", data);
+
             const botMessage: Message = {
                 id: nextId + 1,
-                text: "Estoy procesando tu consulta... 🌐",
-                sender: "bot",
+                text: data.response,
+                sender: "bot"
             }
+
             setMessages(prev => [...prev, botMessage])
-        }, 1000)
+        }
+        catch (error) {
+            console.error(`Ha ocurrido un error al generar la respuesta de IA ${error}`)
+        }
     }
 
     useEffect(() => {
@@ -52,13 +81,11 @@ export default function ExploreApp() {
 
     return (
         <div className="flex min-h-screen">
-            {/* Chat */}
             <div className="w-1/2 border-r border-gray-300 flex flex-col h-screen">
-                {/* Contenedor de mensajes con scroll */}
                 <div
                     ref={chatContainerRef}
                     className="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-50"
-                    style={{ minHeight: 0 }} // evita que flex-1 crezca más de lo debido
+                    style={{ minHeight: 0 }}
                 >
                     {messages.map(msg => (
                         <div
