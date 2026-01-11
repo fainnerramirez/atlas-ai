@@ -3,6 +3,7 @@
 import PromptInput from "@/app/components/prompt/PromptInput"
 import dynamic from "next/dynamic"
 import { useEffect, useRef, useState } from "react"
+import ReactMarkdown from "react-markdown"
 
 const MapView = dynamic(() => import('@/app/components/map/MapView'), { ssr: false })
 
@@ -12,7 +13,10 @@ type Message = {
     sender: "user" | "bot"
 }
 
+export type GetCoordinateToolResponse = { name: string, place: string, lat: number, lng: number };
+
 export default function ExploreApp() {
+    const [coordinates, setCoordinates] = useState<GetCoordinateToolResponse[] | undefined>(undefined)
     const [messages, setMessages] = useState<Message[]>([
         { id: 1, text: "Hola! Bienvenido a Atlas AI 🌎", sender: "bot" },
     ])
@@ -26,18 +30,9 @@ export default function ExploreApp() {
         const userMessage: Message = { id: nextId, text: question, sender: "user" }
         setMessages(prev => [...prev, userMessage])
 
-        // setTimeout(() => {
-        //     const botMessage: Message = {
-        //         id: nextId + 1,
-        //         text: "Estoy procesando tu consulta... 🌐",
-        //         sender: "bot",
-        //     }
-        //     setMessages(prev => [...prev, botMessage])
-        // }, 1000)
-
         try {
 
-            const response = await fetch("/api/ai", {
+            const responseAgent = await fetch("/api/ai", {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json'
@@ -45,16 +40,22 @@ export default function ExploreApp() {
                 body: JSON.stringify({ question })
             })
 
-            if (!response.ok) {
-                throw new Error(`Ha ocurrido un error al generar la respuesta de IA: ${JSON.stringify(response)}`)
+            if (!responseAgent.ok) {
+                throw new Error(`Ha ocurrido un error al generar la respuesta de IA: ${JSON.stringify(responseAgent)}`)
             }
 
-            const data = await response.json();
-            console.log("DATA AI: ", data);
+            const response = await responseAgent.json();
+            console.log("DATA AI: ", response);
+
+            if (response.places && response.places.length > 0) {
+                const dataTool = Array.from(response.places)
+                    .filter((e: any) => e.name === "get_coordinates") as GetCoordinateToolResponse[]
+                setCoordinates(dataTool);
+            }
 
             const botMessage: Message = {
                 id: nextId + 1,
-                text: data.response,
+                text: response.text,
                 sender: "bot"
             }
 
@@ -95,7 +96,9 @@ export default function ExploreApp() {
                                 : "bg-gray-200 text-gray-800"
                                 }`}
                         >
-                            {msg.text}
+                            <ReactMarkdown>
+                                {msg.text}
+                            </ReactMarkdown>
                         </div>
                     ))}
                 </div>
@@ -106,7 +109,7 @@ export default function ExploreApp() {
             </div>
 
             <div className="w-1/2 bg-gray-100 flex items-center justify-center h-screen">
-                <MapView />
+                <MapView coordinates={coordinates} />
             </div>
         </div>
     )
