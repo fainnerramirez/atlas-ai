@@ -1,9 +1,10 @@
 'use client'
+import Welcome from "../components/ui/welcome"
 
 export default function HomePage() {
     return (
-        <h1 className="font-bold text-4xl">
-            Home page app
-        </h1>
+        <main>
+            <Welcome />
+        </main>
     )
 }
