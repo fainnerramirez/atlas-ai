@@ -73,10 +73,7 @@ export default function ExploreApp() {
                 <MapView coordinates={coordinates} />
             </div>
 
-            {/* CHAT */}
             <div className="w-full md:w-1/2 h-[60vh] md:h-full flex flex-col border-t md:border-t-0 md:border-l border-gray-300">
-
-                {/* MENSAJES */}
                 <div
                     ref={chatContainerRef}
                     className="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-50"
@@ -95,7 +92,6 @@ export default function ExploreApp() {
                     ))}
                 </div>
 
-                {/* INPUT */}
                 <div className="p-4 border-t bg-white">
                     <PromptInput onSend={handleSend} />
                 </div>

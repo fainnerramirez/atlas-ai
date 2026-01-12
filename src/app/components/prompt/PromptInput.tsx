@@ -16,8 +16,7 @@ export default function PromptInput({ onSend }: { onSend: (text: string) => void
     return (
         <Textarea
             className="w-full"
-            description="¿A dónde quieres viajar?"
-            label="Descripción"
+            label="¿A dónde quieres viajar?"
             placeholder="Presiona Enter para enviar tu solicitud"
             variant="faded"
             value={value}
