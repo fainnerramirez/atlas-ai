@@ -66,7 +66,7 @@ export default function ExploreApp() {
     }, [messages])
 
     return (
-        <div className="flex flex-col md:flex-row h-screen">
+        <div className="flex flex-col md:flex-row h-dvh">
 
             {/* MAPA — arriba en mobile, derecha en desktop */}
             <div className="w-full md:w-1/2 h-[40vh] md:h-full bg-gray-100">
