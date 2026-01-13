@@ -24,12 +24,14 @@ export default function Welcome() {
                 <GrMapLocation size={56} />
                 <div className='flex flex-col justify-center gap-1'>
                     <h1 className='text-4xl md:text-6xl'>Atlas AI</h1>
-                    <h6 className='text-gray-600 flex justify-center'>
-                        <a href='https://faidev.vercel.app/' target='_blank' className='flex gap-1 items-center'>
+                    <h6 className='text-gray-800 flex justify-center'>
+                        <a 
+                            href='https://faidev.vercel.app/' 
+                            target='_blank' 
+                            className='flex gap-1 items-center underline'>
                             By FaiDev
                             <MdOutlineArrowOutward size={15} />
                         </a>
-
                     </h6>
                 </div>
                 <MorphingText
