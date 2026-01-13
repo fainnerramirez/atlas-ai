@@ -22,6 +22,7 @@ export default function Welcome() {
         <main className="flex flex-col overflow-hidden md:flex-row items-center justify-center h-screen bg-gray-50 px-10">
             <div className="mt-10 md:m-0 flex flex-col items-center justify-center w-full md:w-1/2 gap-8">
                 <GrMapLocation size={56} />
+                <h1 className='text-4xl md:text-6xl'>Atlas AI</h1>
                 <MorphingText
                     className="text-2xl md:text-4xl font-semibold text-center"
                     text={texts}
