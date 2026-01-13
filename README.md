@@ -21,9 +21,8 @@ y la app **navega por el mapa**, marcando y anotando los lugares recomendados au
 ## 🛠️ Tecnologías
 - **React**
 - **TypeScript**
-- **Leaflet / Mapbox / MapLibre** 
-- **OpenStreetMap**
-- **IA (LLM)** para generación de rutas y lugares
+- **Mapbox** 
+- **OpenAI (LLM)** para generación de rutas y lugares
 
 ---
 
