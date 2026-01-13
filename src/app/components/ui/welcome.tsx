@@ -22,7 +22,16 @@ export default function Welcome() {
         <main className="flex flex-col overflow-hidden md:flex-row items-center justify-center h-screen bg-gray-50 px-10">
             <div className="mt-10 md:m-0 flex flex-col items-center justify-center w-full md:w-1/2 gap-8">
                 <GrMapLocation size={56} />
-                <h1 className='text-4xl md:text-6xl'>Atlas AI</h1>
+                <div className='flex flex-col justify-center gap-1'>
+                    <h1 className='text-4xl md:text-6xl'>Atlas AI</h1>
+                    <h6 className='text-gray-600 flex justify-center'>
+                        <a href='https://faidev.vercel.app/' target='_blank' className='flex gap-1 items-center'>
+                            By FaiDev
+                            <MdOutlineArrowOutward size={15} />
+                        </a>
+
+                    </h6>
+                </div>
                 <MorphingText
                     className="text-2xl md:text-4xl font-semibold text-center"
                     text={texts}
