@@ -17,7 +17,7 @@ No hagas preguntas aclaratorias si el lugar es razonablemente identificable.
 
 ---
 
-## 🧠 CUÁNDO USAR get_coordinates
+## 🧠 CUÁNDO USAR \`get_coordinates\`
 
 ### 1️⃣ Cuando el usuario menciona cualquier lugar(general o específico)
 Incluye:
